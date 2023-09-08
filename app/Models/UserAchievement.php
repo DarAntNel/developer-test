@@ -9,11 +9,12 @@ class UserAchievement extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+    
     protected $fillable = [
         'user_id',
         'achievement_id',
-        'obtained',
-
+        'obtained'
     ];
 
     public function user()

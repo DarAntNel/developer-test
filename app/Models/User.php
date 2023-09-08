@@ -12,6 +12,9 @@ use App\Models\Badge;
 use App\Models\Lesson;
 use App\Models\Comment;
 use App\Models\Achievement;
+use App\Models\UserLesson;
+use App\Models\UserBadge;
+use App\Models\UserAchievement;
 
 
 class User extends Authenticatable
@@ -68,21 +71,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Badge::class);
     }
-
-    public function unlockAchievement($name)
-    {
-        $achievement = Achievement::create([
-            'user_id' => $this->id,
-            'name' => $name,
-        ]);
-    }
-
-public function assignBadge($name)
-{
-    $badge = Badge::where('name', $name)->first();
-
-    if ($badge) {
-        $this->badges()->attach($badge->id);
-    }
-}
 }
