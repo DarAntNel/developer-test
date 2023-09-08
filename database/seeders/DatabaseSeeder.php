@@ -18,6 +18,19 @@ class DatabaseSeeder extends Seeder
             ->count(20)
             ->create();
 
+        DB::table('users')->insert([
+            [
+                'name' => 'John',
+                'email' => 'john@gmail.com',
+                'email_verified_at' => date("Y-m-d h:i:s"),
+                'password' => '',
+                'remember_token' => '',
+                'created_at' => date("Y-m-d h:i:s"),
+                'updated_at' => date("Y-m-d h:i:s"),
+            ],
+            
+        ]);
+
         DB::table('achievement_types')->insert([
             ['name' => 'Lessons'],
             ['name' => 'Comments'],
@@ -31,9 +44,9 @@ class DatabaseSeeder extends Seeder
             ['name' => '50 Lessons Watched', 'achievement_type_id'=>1, 'achievement_value'=>50],
             ['name' => 'First Comment Written', 'achievement_type_id'=>2, 'achievement_value'=>1],
             ['name' => '3 Comments Written', 'achievement_type_id'=>2, 'achievement_value'=>3],
-            ['name' => '5 Comment Written', 'achievement_type_id'=>2, 'achievement_value'=>5],
-            ['name' => '10 Comment Written', 'achievement_type_id'=>2, 'achievement_value'=>10],
-            ['name' => '20 Comment Written', 'achievement_type_id'=>2, 'achievement_value'=>20],
+            ['name' => '5 Comments Written', 'achievement_type_id'=>2, 'achievement_value'=>5],
+            ['name' => '10 Comments Written', 'achievement_type_id'=>2, 'achievement_value'=>10],
+            ['name' => '20 Comments Written', 'achievement_type_id'=>2, 'achievement_value'=>20],
         ]);
 
         DB::table('badges')->insert([

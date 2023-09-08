@@ -8,6 +8,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Badge;
+use App\Models\Lesson;
+use App\Models\Comment;
+use App\Models\Achievement;
 
 
 class User extends Authenticatable
@@ -45,6 +49,16 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function watched()
+    {
+        return $this->hasMany(LessonUser::class);
+    }
+
     public function achievements()
     {
         return $this->hasMany(Achievement::class);
@@ -52,6 +66,23 @@ class User extends Authenticatable
 
     public function badges()
     {
-        return $this->belongsToMany(Badge::class);
+        return $this->hasMany(Badge::class);
     }
+
+    public function unlockAchievement($name)
+    {
+        $achievement = Achievement::create([
+            'user_id' => $this->id,
+            'name' => $name,
+        ]);
+    }
+
+public function assignBadge($name)
+{
+    $badge = Badge::where('name', $name)->first();
+
+    if ($badge) {
+        $this->badges()->attach($badge->id);
+    }
+}
 }

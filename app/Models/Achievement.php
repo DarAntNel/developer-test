@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Achievement;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,10 +13,12 @@ class Achievement extends Model
 
     protected $fillable = [
         'name',
+        'achievement_type_id',
+        'achievement_value',
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class);
     }
 }
