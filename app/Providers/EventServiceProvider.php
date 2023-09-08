@@ -5,6 +5,12 @@ namespace App\Providers;
 use Illuminate\Auth\Events\Registered;
 use App\Events\CommentWritten;
 use App\Listeners\InsertComment;
+use App\Events\LessonWatched;
+use App\Listeners\UpdateLessonWatched;
+use App\Events\AchievementUnlocked;
+use App\Events\BadgeUnlocked;
+use App\Listeners\UpdateAchievement;
+use App\Listeners\UpdateBadge;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
@@ -22,6 +28,15 @@ class EventServiceProvider extends ServiceProvider
         ],
         CommentWritten::class => [
             InsertComment::class,
+        ],
+        LessonWatched::class => [
+            UpdateLessonWatched::class,
+        ],
+        AchievementUnlocked::class => [
+            UpdateAchievement::class,
+        ],
+        BadgeUnlocked::class => [
+            UpdateBadge::class,
         ],
     ];
 
