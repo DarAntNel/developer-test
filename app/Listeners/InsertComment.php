@@ -20,8 +20,9 @@ class InsertComment
      */
     public function handle(object $event): void
     {
-        // save comment and update achievemrnt or badge if necessary
         $comment = $event->comment;
+        $user = $event->user;
+        $comment->user_id = $user->id;
         $comment->save();
     }
 }

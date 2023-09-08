@@ -2,50 +2,47 @@
 
 namespace App\Http\Controllers;
 use App\Events\CommentWritten;
+use App\Events\AchievementUnlocked;
+use App\Events\BadgeUnlocked;
 use App\Models\Comment;
 use App\Models\User;
 use App\Models\Achievement;
 use App\Models\Badge;
+use App\Models\UserAchievement;
+use App\Models\UserBadge;
 use Illuminate\Http\Request;
 
 class CommentsContoller extends Controller
 {
     public function post_comment(Request $request)
     {        
-        $comment = Comment::create([
-            'id' => "",
-            'user_id' => $request->user_id,
-            'body' => $request->body,
-            'created_at' => date("Y-m-d h:i:s"),
-            'updated_at' => date("Y-m-d h:i:s"),
-        ]);
-       
-        try {
-            CommentWritten::dispatch($comment);
-        } catch (Exception $e) {
-            return "Failed to insert $comment";
-        }
-    
         $user = User::find($request->user_id);
         $number_of_comments_posted = $user->comments->count();
+        
+        $comment = new Comment();
+        $comment->user_id = $user->id;
+        $comment->body = $request->body;
+        $comment->created_at = $request->created_at;
+        $comment->updated_at = $request->updated_at;
 
-        $records = Achievement::where('achievement_type_id', 2)->where('achievement_value', $number_of_comments_posted)->get();
+        event(new CommentWritten($comment, $user));    
 
-        return $records;
-        if ($lessonsWatched == 0) {
-            $user->unlockAchievement('First Lesson Watched');
-        } elseif ($lessonsWatched == 4) {
-            $user->unlockAchievement('5 Lessons Watched');
-        } elseif ($lessonsWatched == 9) {
-            $user->unlockAchievement('10 Lessons Watched');
-        } elseif ($lessonsWatched == 24) {
-            $user->unlockAchievement('25 Lessons Watched');
-        } elseif ($lessonsWatched == 49) {
-            $user->unlockAchievement('50 Lessons Watched');
+        $achievement_record = Achievement::where('achievement_type_id', 2)->where('achievement_value', $number_of_comments_posted)->get();
+
+        if (!empty($achievement_record)) {
+            $achievement_name = $achievement_record[0]->name;
+            event(new AchievementUnlocked($achievement_name, $user));
         }
 
+        $number_of_achievements = $user->achievements->count();
 
-        return $commentsPosted;
+        $badge_record = Badge::where('badge_value', $number_of_achievements)->get();
+
+        if (!empty($badge_record)) {
+            $badge_name = $badge_record[0]->name;
+            event(new BadgeUnlocked($badge_name, $user));
+        }
+      
         return $comment;
         
     }
