@@ -17,7 +17,6 @@ class CommentsContoller extends Controller
     public function post_comment(Request $request)
     {        
         $user = User::find($request->user_id);
-        $number_of_comments_posted = $user->comments->count();
         
         $comment = new Comment();
         $comment->user_id = $user->id;
@@ -25,8 +24,9 @@ class CommentsContoller extends Controller
         $comment->created_at = $request->created_at;
         $comment->updated_at = $request->updated_at;
 
-        event(new CommentWritten($comment, $user));    
+        event(new CommentWritten($comment, $user));   
 
+        $number_of_comments_posted = $user->comments->count();
         $achievement_record = Achievement::where('achievement_type_id', 2)->where('achievement_value', $number_of_comments_posted)->get();
 
         if (!empty($achievement_record)) {

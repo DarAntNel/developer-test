@@ -18,7 +18,6 @@ class LessonsContoller extends Controller
     public function watch_lesson(Request $request)
     {        
         $user = User::find($request->user_id);
-        $number_of_lessons_watched = $user->watched->count();
         
         $lesson = new Lesson();
         $lesson->id = $request->id;
@@ -28,6 +27,7 @@ class LessonsContoller extends Controller
     
         event(new LessonWatched($lesson, $user));
            
+        $number_of_lessons_watched = $user->watched->count();
         $achievement_record = Achievement::where('achievement_type_id', 1)->where('achievement_value', $number_of_lessons_watched)->get();
 
         if (!empty($achievement_record)) {
@@ -43,7 +43,6 @@ class LessonsContoller extends Controller
             $badge_name = $badge_record[0]->name;
             event(new BadgeUnlocked($badge_name, $user));
         }
-        
       
         return $lesson;
         
