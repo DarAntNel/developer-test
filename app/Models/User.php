@@ -64,11 +64,11 @@ class User extends Authenticatable
 
     public function achievements()
     {
-        return $this->hasMany(Achievement::class);
+        return $this->hasMany(UserAchievement::class);
     }
 
     public function badges()
     {
-        return $this->hasMany(Badge::class);
+        return $this->hasMany(UserBadge::class);
     }
 }
