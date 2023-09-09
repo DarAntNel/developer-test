@@ -56,6 +56,9 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Master', 'badge_value'=>10],
         ]);
 
+        DB::table('user_badges')->insert([
+            ['user_id' => 1, 'badge_id' => 1, 'obtained' => 1],
+        ]);
 
     }
 }
