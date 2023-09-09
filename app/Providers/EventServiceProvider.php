@@ -11,6 +11,8 @@ use App\Events\AchievementUnlocked;
 use App\Events\BadgeUnlocked;
 use App\Listeners\UpdateAchievement;
 use App\Listeners\UpdateBadge;
+use App\Events\UserCreated;
+use App\Listeners\UserCreatedListener;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
@@ -37,6 +39,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         BadgeUnlocked::class => [
             UpdateBadge::class,
+        ],
+        UserCreated::class => [
+            UserCreatedListener::class,
         ],
     ];
 
