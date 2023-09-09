@@ -19,8 +19,6 @@ class DatabaseSeeder extends Seeder
             ->count(20)
             ->create();
 
-        $user = User::factory()->create();
-
         DB::table('achievement_types')->insert([
             ['name' => 'Lessons'],
             ['name' => 'Comments'],
@@ -45,6 +43,8 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Advanced', 'badge_value'=>8],
             ['name' => 'Master', 'badge_value'=>10],
         ]);
+
+        $user = User::factory()->create();
 
     }
 }
