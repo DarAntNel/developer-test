@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Lesson;
+use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -18,18 +19,7 @@ class DatabaseSeeder extends Seeder
             ->count(20)
             ->create();
 
-        DB::table('users')->insert([
-            [
-                'name' => 'John',
-                'email' => 'john@gmail.com',
-                'email_verified_at' => date("Y-m-d h:i:s"),
-                'password' => '',
-                'remember_token' => '',
-                'created_at' => date("Y-m-d h:i:s"),
-                'updated_at' => date("Y-m-d h:i:s"),
-            ],
-            
-        ]);
+        $user = User::factory()->create();
 
         DB::table('achievement_types')->insert([
             ['name' => 'Lessons'],
@@ -54,10 +44,6 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Intermediate', 'badge_value'=>4],
             ['name' => 'Advanced', 'badge_value'=>8],
             ['name' => 'Master', 'badge_value'=>10],
-        ]);
-
-        DB::table('user_badges')->insert([
-            ['user_id' => 1, 'badge_id' => 1, 'obtained' => 1],
         ]);
 
     }
