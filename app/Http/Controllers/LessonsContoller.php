@@ -28,9 +28,10 @@ class LessonsContoller extends Controller
         event(new LessonWatched($lesson, $user));
            
         $number_of_lessons_watched = $user->watched->count();
+        
         $achievement_record = Achievement::where('achievement_type_id', 1)->where('achievement_value', $number_of_lessons_watched)->get();
-
-        if (!empty($achievement_record)) {
+        
+        if (!$achievement_record->isEmpty()) {
             $achievement_name = $achievement_record[0]->name;
             event(new AchievementUnlocked($achievement_name, $user));
         }
@@ -39,7 +40,7 @@ class LessonsContoller extends Controller
 
         $badge_record = Badge::where('badge_value', $number_of_achievements)->get();
 
-        if (!empty($badge_record)) {
+        if (!$badge_record->isEmpty()) {
             $badge_name = $badge_record[0]->name;
             event(new BadgeUnlocked($badge_name, $user));
         }

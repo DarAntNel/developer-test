@@ -29,7 +29,7 @@ class CommentsContoller extends Controller
         $number_of_comments_posted = $user->comments->count();
         $achievement_record = Achievement::where('achievement_type_id', 2)->where('achievement_value', $number_of_comments_posted)->get();
 
-        if (!empty($achievement_record)) {
+        if (!$achievement_record->isEmpty()) {
             $achievement_name = $achievement_record[0]->name;
             event(new AchievementUnlocked($achievement_name, $user));
         }
@@ -38,7 +38,7 @@ class CommentsContoller extends Controller
 
         $badge_record = Badge::where('badge_value', $number_of_achievements)->get();
 
-        if (!empty($badge_record)) {
+        if (!$badge_record->isEmpty()) {
             $badge_name = $badge_record[0]->name;
             event(new BadgeUnlocked($badge_name, $user));
         }
