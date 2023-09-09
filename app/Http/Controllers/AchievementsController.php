@@ -33,10 +33,10 @@ class AchievementsController extends Controller
             if(!empty($latest_achievement_id)){
                 $latest_achievement_value = Achievement::where('id', $latest_achievement_id)->get("achievement_value")[0]->achievement_value;
                 $next_achievement_details = Achievement::where('achievement_type_id', $latest_achievement_type_id)->where('achievement_value', '>', $latest_achievement_value)->orderBy('achievement_value', 'asc')->take(1)->get();
-                ($next_achievement_details->isEmpty())? $next_achievement_array[] = "You have reached the maximum achievement": $next_achievement_array[] = $next_achievement_details[0]->name;
+                ($next_achievement_details->isEmpty())? $next_achievement_array[] = "You have unlocked all achievements": $next_achievement_array[] = $next_achievement_details[0]->name;
             }else{
                 $next_achievement_details = Achievement::where('achievement_type_id', $latest_achievement_type_id)->where('achievement_value', '>=', 0)->orderBy('achievement_value', 'asc')->take(1)->get();
-                ($next_achievement_details->isEmpty())? $next_achievement_array[] = "You have reached the maximum achievement": $next_achievement_array[] = $next_achievement_details[0]->name;
+                ($next_achievement_details->isEmpty())? $next_achievement_array[] = "You have unlocked all achievements": $next_achievement_array[] = $next_achievement_details[0]->name;
             }
         }
 
@@ -58,7 +58,7 @@ class AchievementsController extends Controller
             $number_of_achievements = $user->achievements->count();
             $remaing_to_unlock_next_badge = $next_badge_details[0]->badge_value - $number_of_achievements;
         }else{
-            $next_badge = "You have reached the maximum achievement";
+            $next_badge = "You have unlocked all badges";
             $remaing_to_unlock_next_badge = 0;
         }
         
