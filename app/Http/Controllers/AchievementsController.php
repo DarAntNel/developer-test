@@ -41,9 +41,10 @@ class AchievementsController extends Controller
         }
 
         $badges = $user->badges;
+        $current_badge_value = 0;
+        $current_badge = "";
 
         foreach($badges as $badge){
-            $current_badge_value = 0;
             $badge_details = Badge::where('id', $badge->badge_id)->get();
             if ($badge_details[0]->badge_value >= $current_badge_value){
                 $current_badge = $badge_details[0]->name;
